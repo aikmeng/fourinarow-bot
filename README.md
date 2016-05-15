@@ -18,3 +18,7 @@ Execute against default bot
     "java -cp /Users/aikmeng/src/theaigames/fourinarow/fourinarow-bot/build/classes/main bot.BotStarter" \
     2>err.txt \
     1>out.txt
+
+Execute unit tests
+
+    gradle test
