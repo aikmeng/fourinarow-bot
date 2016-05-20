@@ -18,31 +18,22 @@
 package amang;
 import java.util.Scanner;
 
-/**
- * MyBot class
- * 
- * Main class that will keep reading output from the engine.
- * Will either update the bot state or get actions.
- * 
- * @author Jim van Eeden <jim@starapple.nl>, Joost de Meij <joost@starapple.nl>
- */
+public class BotApp {
+	private final Scanner scan;
 
-public class BotParser {
-    
-	final Scanner scan;
-    final BotStarter bot;
-    
-    private Field mField;
+    private Playboard mPlayboard;
+    private BotLogic mBotLogic;
+
     public static int mBotId = 0;
-
     
-    public BotParser(BotStarter bot) {
+    public BotApp() {
 		this.scan = new Scanner(System.in);
-		this.bot = bot;
 	}
     
     public void run() {
-        mField = new Field(0, 0);
+        mPlayboard = new Playboard(0, 0);
+        mBotLogic = new BotLogic(mPlayboard);
+
         while(scan.hasNextLine()) {
             String line = scan.nextLine();
 
@@ -54,10 +45,10 @@ public class BotParser {
             
             if(parts[0].equals("settings")) {
                 if (parts[1].equals("field_columns")) {
-                    mField.setColumns(Integer.parseInt(parts[2]));
+                    mPlayboard.setColumns(Integer.parseInt(parts[2]));
                 }
                 if (parts[1].equals("field_rows")) {
-                    mField.setRows(Integer.parseInt(parts[2]));
+                    mPlayboard.setRows(Integer.parseInt(parts[2]));
                 }
                 if (parts[1].equals("your_botid")) {
                     mBotId = Integer.parseInt(parts[2]);
@@ -65,11 +56,11 @@ public class BotParser {
             } else if(parts[0].equals("update")) { /* new field data */
                 if (parts[2].equals("field")) {
                     String data = parts[3];
-                    mField.parseFromString(data); /* Parse Field with data */
+                    mPlayboard.parseFromString(data); /* Parse Playboard with data */
                 }
             } else if(parts[0].equals("action")) {
                 if (parts[1].equals("move")) { /* move requested */
-                    int column = bot.makeTurn();
+                    int column = mBotLogic.makeTurn();
                     System.out.println("place_disc " + column);
                 }
             }

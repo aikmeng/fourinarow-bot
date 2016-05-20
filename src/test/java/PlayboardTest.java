@@ -1,26 +1,27 @@
+import amang.Playboard;
 import org.junit.Test;
-import amang.Field;
+
 import static org.junit.Assert.*;
 
-public class FieldTest {
+public class PlayboardTest {
     private static int MAX_COLUMN = 7;
     private static int MAX_ROW = 6;
 
     @Test
     public void testGetNrColumns() {
-        Field classUnderTest = new Field(MAX_COLUMN, MAX_ROW);
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         assertEquals(MAX_COLUMN, classUnderTest.getNrColumns());
     }
 
     @Test
     public void testGetNrRows() {
-        Field classUnderTest = new Field(MAX_COLUMN, MAX_ROW);
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         assertEquals(MAX_ROW, classUnderTest.getNrRows());
     }
 
     @Test
     public void testParseFromString() {
-        Field classUnderTest = new Field(MAX_COLUMN, MAX_ROW);
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "1,1,1,1,1,1,1;" +
                                 "1,1,1,1,1,1,1;" +
                                 "1,1,1,1,1,1,1;" +
@@ -38,7 +39,7 @@ public class FieldTest {
 
     @Test
     public void testIsColumnFull() {
-        Field classUnderTest = new Field(MAX_COLUMN, MAX_ROW);
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,1,0,0,0,0;" +
                                 "0,0,1,0,0,0,0;" +
                                 "0,0,1,0,0,0,0;" +
@@ -52,7 +53,7 @@ public class FieldTest {
 
     @Test
     public void testIsValidMove_returns_true() {
-        Field classUnderTest = new Field(MAX_COLUMN, MAX_ROW);
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
                                 "0,0,1,0,0,0,0;" +
@@ -66,7 +67,7 @@ public class FieldTest {
 
     @Test
     public void testIsValidMove_returns_false() {
-        Field classUnderTest = new Field(MAX_COLUMN, MAX_ROW);
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,2,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -80,7 +81,7 @@ public class FieldTest {
 
     @Test
     public void testIsFull() {
-        Field classUnderTest = new Field(MAX_COLUMN, MAX_ROW);
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "1,1,1,1,1,1,1;" +
                                 "1,1,1,1,1,1,1;" +
                                 "1,1,1,1,1,1,1;" +
