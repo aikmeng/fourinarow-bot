@@ -16,6 +16,8 @@
 //    file that was distributed with this source code.
 
 package amang;
+import amang.BotLogic.BotLogic;
+
 import java.util.Scanner;
 
 public class BotApp {
@@ -52,6 +54,7 @@ public class BotApp {
                 }
                 if (parts[1].equals("your_botid")) {
                     mBotId = Integer.parseInt(parts[2]);
+                    mBotLogic.decideStrategy(mBotId);
                 }
             } else if(parts[0].equals("update")) { /* new field data */
                 if (parts[2].equals("field")) {
