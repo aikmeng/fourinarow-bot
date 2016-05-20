@@ -27,7 +27,8 @@ public class BotApp {
     private BotLogic mBotLogic;
 
     public static int mBotId = 0;
-    
+    public int mCurrentRound = 0;
+
     public BotApp() {
 		this.scan = new Scanner(System.in);
 	}
@@ -60,6 +61,11 @@ public class BotApp {
                 if (parts[2].equals("field")) {
                     String data = parts[3];
                     mPlayboard.parseFromString(data); /* Parse Playboard with data */
+                }
+                else if (parts[2].equals("round")) {
+                    mCurrentRound = Integer.parseInt(parts[3]);
+                    mBotLogic.updateRound(mCurrentRound);
+                    System.out.println("Current Round " + mCurrentRound);
                 }
             } else if(parts[0].equals("action")) {
                 if (parts[1].equals("move")) { /* move requested */

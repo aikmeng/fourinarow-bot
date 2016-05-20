@@ -16,13 +16,6 @@
 //    file that was distributed with this source code.
 
 package amang;
-/**
- * Playboard class
- * 
- * Playboard class that contains the field status data and various helper functions.
- * 
- * @author Jim van Eeden <jim@starapple.nl>, Joost de Meij <joost@starapple.nl>
- */
 
 public class Playboard {
     private int[][] mBoard;
@@ -194,5 +187,21 @@ public class Playboard {
      */
     public int getNrRows() {
         return mRows;
+    }
+
+    public int getMiddleColumn() {
+        return mCols / 2;
+    }
+
+    public int getTopRowValue(int column) {
+        for (int y = 0; y < mRows; y++) {
+            if(mBoard[column][y] == 0) {
+                if(y == 0) {
+                    return 0;
+                }
+                return mBoard[column][y - 1];
+            }
+        }
+        return -1;
     }
 }

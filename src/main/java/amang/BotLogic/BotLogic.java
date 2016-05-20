@@ -12,10 +12,14 @@ public class BotLogic {
 
     public void decideStrategy(int botId) {
         if(botId == 1) {
-            mBotStrategy = new FirstMoverStrategy(mPlayboard);
+            mBotStrategy = new FirstMoverStrategy(mPlayboard, botId);
         } else {
-            mBotStrategy = new SecondMoverStrategy(mPlayboard);
+            mBotStrategy = new SecondMoverStrategy(mPlayboard, botId);
         }
+    }
+
+    public void updateRound(int round) {
+        mBotStrategy.updateRound(round);
     }
 
     public int makeTurn() {
