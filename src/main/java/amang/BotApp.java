@@ -65,7 +65,6 @@ public class BotApp {
                 else if (parts[2].equals("round")) {
                     mCurrentRound = Integer.parseInt(parts[3]);
                     mBotLogic.updateRound(mCurrentRound);
-                    System.out.println("Current Round " + mCurrentRound);
                 }
             } else if(parts[0].equals("action")) {
                 if (parts[1].equals("move")) { /* move requested */

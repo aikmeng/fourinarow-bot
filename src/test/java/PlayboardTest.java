@@ -91,4 +91,62 @@ public class PlayboardTest {
         classUnderTest.parseFromString(fieldString);
         assertTrue(classUnderTest.isFull());
     }
+
+    @Test
+    public void testGetMiddleColumn() {
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
+        assertEquals(3, classUnderTest.getMiddleColumn());
+    }
+
+    @Test
+    public void testGetTopRowValue_boundary_1() {
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
+        String fieldString =    "0,0,0,0,0,0,0;" +
+                                "0,0,0,0,0,0,0;" +
+                                "0,0,0,0,0,0,0;" +
+                                "0,0,0,0,0,0,0;" +
+                                "0,0,0,0,0,0,0;" +
+                                "0,0,0,0,0,0,0";
+        classUnderTest.parseFromString(fieldString);
+        assertEquals(0, classUnderTest.getTopRowValue(3));
+    }
+
+    @Test
+    public void testGetTopRowValue_boundary_2() {
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
+        String fieldString =    "0,0,0,2,0,0,0;" +
+                                "0,0,0,1,0,0,0;" +
+                                "0,0,0,2,0,0,0;" +
+                                "0,0,0,1,0,0,0;" +
+                                "0,0,0,2,0,0,0;" +
+                                "0,0,0,1,0,0,0";
+        classUnderTest.parseFromString(fieldString);
+        assertEquals(-1, classUnderTest.getTopRowValue(3));
+    }
+
+    @Test
+    public void testGetTopRowValue_scenario_1() {
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
+        String fieldString =    "0,0,0,0,0,0,0;" +
+                                "0,0,0,0,0,0,0;" +
+                                "0,0,0,0,0,0,0;" +
+                                "0,0,0,0,0,0,0;" +
+                                "0,0,0,0,0,0,0;" +
+                                "0,0,0,1,0,0,0";
+        classUnderTest.parseFromString(fieldString);
+        assertEquals(1, classUnderTest.getTopRowValue(3));
+    }
+
+    @Test
+    public void testGetTopRowValue_scenario_2() {
+        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
+        String fieldString =    "0,0,0,0,0,0,0;" +
+                                "0,0,0,2,0,0,0;" +
+                                "0,0,0,1,0,0,0;" +
+                                "0,0,0,1,0,0,0;" +
+                                "0,0,0,1,0,0,0;" +
+                                "0,0,0,1,0,0,0";
+        classUnderTest.parseFromString(fieldString);
+        assertEquals(2, classUnderTest.getTopRowValue(3));
+    }
 }

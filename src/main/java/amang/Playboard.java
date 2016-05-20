@@ -194,12 +194,12 @@ public class Playboard {
     }
 
     public int getTopRowValue(int column) {
-        for (int y = 0; y < mRows; y++) {
+        for (int y = mRows - 1; y >= 0; y--) {
             if(mBoard[column][y] == 0) {
-                if(y == 0) {
+                if(y == mRows - 1) {
                     return 0;
                 }
-                return mBoard[column][y - 1];
+                return mBoard[column][y + 1];
             }
         }
         return -1;
