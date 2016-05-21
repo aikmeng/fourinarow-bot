@@ -204,4 +204,40 @@ public class Playboard {
         }
         return -1;
     }
+
+    public int getColumnTopRowWithDifferentBotId(int botId) {
+        for (int x = 0; x < mCols; x++) {
+            for (int y = mRows - 1; y >= 0; y--) {
+                if(mBoard[x][y] == 0) {
+                    if(y == mRows - 1) {
+                        break;
+                    }
+                    int previousRowValue = mBoard[x][y + 1];
+                    if(previousRowValue != botId) {
+                        return x;
+                    }
+                    break;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int getColumnTopRowWithSameBotId(int botId) {
+        for (int x = 0; x < mCols; x++) {
+            for (int y = mRows - 1; y >= 0; y--) {
+                if(mBoard[x][y] == 0) {
+                    if(y == mRows - 1) {
+                        break;
+                    }
+                    int previousRowValue = mBoard[x][y + 1];
+                    if(previousRowValue == botId) {
+                        return x;
+                    }
+                    break;
+                }
+            }
+        }
+        return -1;
+    }
 }
