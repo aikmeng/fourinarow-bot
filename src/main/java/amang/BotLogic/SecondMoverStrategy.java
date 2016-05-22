@@ -5,15 +5,15 @@ import java.util.Random;
 
 // Defensive Strategy
 public class SecondMoverStrategy implements IBotStrategy {
-    private Playboard mPlayboard;
     private int mBotId;
     private int mCurrentRound;
-    private int mLastMove;
+    private Playboard mPlayboard;
+    private StrategyHelper mStrategyHelper;
 
-    public SecondMoverStrategy(Playboard playboard, int botId) {
-        mPlayboard = playboard;
+    public SecondMoverStrategy(int botId, Playboard playboard, StrategyHelper strategyHelper) {
         mBotId = botId;
-        mLastMove = -1;
+        mPlayboard = playboard;
+        mStrategyHelper = strategyHelper;
     }
 
     @Override
@@ -25,36 +25,16 @@ public class SecondMoverStrategy implements IBotStrategy {
     public int makeTurn() {
         int blockingColumn = mPlayboard.getColumnTopRowWithDifferentBotId(mBotId);
         if (blockingColumn != -1) {
+            mStrategyHelper.trackValidateMove(blockingColumn);
             return blockingColumn;
-        }
-
-        if (mLastMove == -1) {
-            int randomMove = makeRandomMove();
-            trackValidateMove(randomMove);
-            return randomMove;
         }
 
         int buildingColumn = mPlayboard.getColumnTopRowWithSameBotId(mBotId);
         if (buildingColumn != -1) {
+            mStrategyHelper.trackValidateMove(buildingColumn);
             return buildingColumn;
         }
 
-        int randomMove = makeRandomMove();
-        trackValidateMove(randomMove);
-        return randomMove;
-    }
-
-    private boolean trackValidateMove(int targetColumn) {
-        if(mPlayboard.isColumnFull(targetColumn)) {
-            return false;
-        }
-
-        mLastMove = targetColumn;
-        return true;
-    }
-
-    private int makeRandomMove() {
-        int move = new Random().nextInt(7);
-        return move;
+        return mStrategyHelper.findRandomMove();
     }
 }

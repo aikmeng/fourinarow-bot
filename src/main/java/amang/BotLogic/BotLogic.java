@@ -12,9 +12,9 @@ public class BotLogic {
 
     public void decideStrategy(int botId) {
         if(botId == 1) {
-            mBotStrategy = new FirstMoverStrategy(mPlayboard, botId);
+            mBotStrategy = new FirstMoverStrategy(botId, mPlayboard, new StrategyHelper(mPlayboard));
         } else {
-            mBotStrategy = new SecondMoverStrategy(mPlayboard, botId);
+            mBotStrategy = new SecondMoverStrategy(botId, mPlayboard, new StrategyHelper(mPlayboard));
         }
     }
 

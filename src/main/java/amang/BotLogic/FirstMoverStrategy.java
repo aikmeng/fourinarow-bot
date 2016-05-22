@@ -1,18 +1,19 @@
 package amang.BotLogic;
 
 import amang.Playboard;
-import java.util.Random;
 
 // Offensive Strategy
 public class FirstMoverStrategy implements IBotStrategy {
-    private Playboard mPlayboard;
     private int mBotId;
     private int mCurrentRound;
-    private int mLastMove;
 
-    public FirstMoverStrategy(Playboard playboard, int botId) {
-        mPlayboard = playboard;
+    private Playboard mPlayboard;
+    private StrategyHelper mStrategyHelper;
+
+    public FirstMoverStrategy(int botId, Playboard playboard, StrategyHelper strategyHelper) {
         mBotId = botId;
+        mPlayboard = playboard;
+        mStrategyHelper = strategyHelper;
     }
 
     @Override
@@ -31,36 +32,19 @@ public class FirstMoverStrategy implements IBotStrategy {
 
     private int firstRoundMove() {
         int nextMove = mPlayboard.getMiddleColumn();
-        trackValidateMove(nextMove);
+        mStrategyHelper.trackValidateMove(nextMove);
         return nextMove;
     }
 
     private int findNextMove() {
-        int topRowValue = mPlayboard.getTopRowValue(mLastMove);
+        int lastMove = mStrategyHelper.getLastMove();
+        int topRowValue = mPlayboard.getTopRowValue(lastMove);
         if(topRowValue == mBotId) {
-            if(trackValidateMove(mLastMove)){
-                return mLastMove;
+            if(mStrategyHelper.trackValidateMove(lastMove)){
+                return lastMove;
             }
         }
 
-        int randomMove = makeRandomMove();
-        while(!trackValidateMove(randomMove)) {
-            randomMove = makeRandomMove();
-        }
-        return randomMove;
-    }
-
-    private boolean trackValidateMove(int targetColumn) {
-        if(mPlayboard.isColumnFull(targetColumn)) {
-            return false;
-        }
-
-        mLastMove = targetColumn;
-        return true;
-    }
-
-    private int makeRandomMove() {
-        int move = new Random().nextInt(7);
-        return move;
+        return mStrategyHelper.findRandomMove();
     }
 }
