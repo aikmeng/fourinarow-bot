@@ -1,6 +1,8 @@
 package amang.BotLogic;
 
 import amang.Playboard.Playboard;
+import amang.Playboard.PlayboardPatternSearch;
+import amang.Playboard.SearchResult;
 
 // Offensive Strategy
 public class FirstMoverStrategy implements IBotStrategy {
@@ -39,6 +41,11 @@ public class FirstMoverStrategy implements IBotStrategy {
     }
 
     private int findNextMove() {
+        SearchResult searchResult = mPlayboard.getPlayboardPatternSearch().searchHorizontalWinnerColumn();
+        if(searchResult.getColumnId() != PlayboardPatternSearch.COLUMN_NOT_FOUND){
+            return searchResult.getColumnId();
+        }
+
         int lastMove = mStrategyHelper.getLastMove();
         int topRowValue = mPlayboard.getPlayboardPatternSearch().getTopRowValue(lastMove);
         if(topRowValue == mBotId) {

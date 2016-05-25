@@ -2,6 +2,7 @@ package amang.BotLogic;
 
 import amang.Playboard.Playboard;
 import amang.Playboard.PlayboardPatternSearch;
+import amang.Playboard.SearchResult;
 
 // Defensive Strategy
 public class SecondMoverStrategy implements IBotStrategy {
@@ -23,6 +24,11 @@ public class SecondMoverStrategy implements IBotStrategy {
 
     @Override
     public int makeTurn() {
+        SearchResult searchResult = mPlayboard.getPlayboardPatternSearch().searchHorizontalWinnerColumn();
+        if(searchResult.getColumnId() != PlayboardPatternSearch.COLUMN_NOT_FOUND){
+            return searchResult.getColumnId();
+        }
+
         int blockingColumn = mPlayboard.getPlayboardPatternSearch().getColumnTopRowWithDifferentBotId(mBotId);
         if (blockingColumn != PlayboardPatternSearch.COLUMN_NOT_FOUND) {
             mStrategyHelper.trackValidateMove(blockingColumn);

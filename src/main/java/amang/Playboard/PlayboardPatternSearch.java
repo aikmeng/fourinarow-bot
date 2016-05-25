@@ -62,4 +62,45 @@ public class PlayboardPatternSearch {
         }
         return COLUMN_NOT_FOUND;
     }
+
+    // Possible to have multiple columns as solution. Just get one and return;
+    public SearchResult searchHorizontalWinnerColumn() {
+        for (int y = mRows - 1; y >= 0; y--) {
+            for (int x = 0; x < mCols; x++) {
+                if(x + 3 >= mCols) {
+                    continue;
+                }
+                else if(mBoard[x][y] == COLUMN_UNUSED &&                                //return column must be unused
+                        mBoard[x + 1][y] != COLUMN_UNUSED &&                            //current slot must be valid botid
+                        (y == mRows - 1 || mBoard[x][y + 1] != COLUMN_UNUSED) &&    //check slot below is used
+                        mBoard[x + 1][y] == mBoard[x + 2][y] &&                         //check for continuous pattern
+                        mBoard[x + 2][y] == mBoard[x + 3][y]) {
+                    return new SearchResult(mBoard[x + 1][y], x);
+                }
+                else if(mBoard[x + 1][y] == COLUMN_UNUSED &&
+                        mBoard[x][y] != COLUMN_UNUSED &&
+                        (y == mRows - 1 || mBoard[x + 1][y + 1] != COLUMN_UNUSED) &&    //check slot below is used
+                        mBoard[x][y] == mBoard[x + 2][y] &&
+                        mBoard[x + 2][y] == mBoard[x + 3][y]) {
+                    return new SearchResult(mBoard[x][y], x + 1);
+                }
+                else if(mBoard[x + 2][y] == COLUMN_UNUSED &&
+                        mBoard[x][y] != COLUMN_UNUSED &&
+                        (y == mRows - 1 || mBoard[x + 2][y + 1] != COLUMN_UNUSED) &&    //check slot below is used
+                        mBoard[x][y] == mBoard[x + 1][y] &&
+                        mBoard[x + 1][y] == mBoard[x + 3][y]) {
+                    return new SearchResult(mBoard[x][y], x + 2);
+                }
+                else if(mBoard[x + 3][y] == COLUMN_UNUSED &&
+                        mBoard[x][y] != COLUMN_UNUSED &&
+                        (y == mRows - 1 || mBoard[x + 3][y + 1] != COLUMN_UNUSED) &&    //check slot below is used
+                        mBoard[x][y] == mBoard[x + 1][y] &&
+                        mBoard[x + 1][y] == mBoard[x + 2][y]) {
+                    return new SearchResult(mBoard[x][y], x + 3);
+                }
+            }
+        }
+
+        return new SearchResult(COLUMN_UNUSED, COLUMN_NOT_FOUND);
+    }
 }

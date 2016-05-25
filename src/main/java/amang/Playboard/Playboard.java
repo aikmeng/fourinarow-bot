@@ -28,6 +28,8 @@ public class Playboard {
         mCols = columns;
         mRows = rows;
         clearBoard();
+
+        mPlayboardPatternSearch = new PlayboardPatternSearch(mCols, mRows, mBoard);
     }
 
     /**
