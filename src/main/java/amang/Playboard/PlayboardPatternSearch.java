@@ -1,6 +1,10 @@
 package amang.Playboard;
 
 public class PlayboardPatternSearch {
+    public static final int COLUMN_INVALID = -1;
+    public static final int COLUMN_NOT_FOUND = -1;
+    public static final int COLUMN_UNUSED = 0;
+
     private int[][] mBoard;
     private int mCols = 0;
     private int mRows = 0;
@@ -15,12 +19,12 @@ public class PlayboardPatternSearch {
         for (int y = mRows - 1; y >= 0; y--) {
             if(mBoard[column][y] == 0) {
                 if(y == mRows - 1) {
-                    return 0;
+                    return COLUMN_UNUSED;
                 }
                 return mBoard[column][y + 1];
             }
         }
-        return -1;
+        return COLUMN_INVALID;
     }
 
     public int getColumnTopRowWithDifferentBotId(int botId) {
@@ -38,7 +42,7 @@ public class PlayboardPatternSearch {
                 }
             }
         }
-        return -1;
+        return COLUMN_NOT_FOUND;
     }
 
     public int getColumnTopRowWithSameBotId(int botId) {
@@ -56,6 +60,6 @@ public class PlayboardPatternSearch {
                 }
             }
         }
-        return -1;
+        return COLUMN_NOT_FOUND;
     }
 }
