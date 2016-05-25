@@ -1,6 +1,6 @@
 package amang.BotLogic;
 
-import amang.Playboard;
+import amang.Playboard.Playboard;
 
 import java.util.Random;
 

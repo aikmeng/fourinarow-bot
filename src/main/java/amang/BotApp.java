@@ -17,6 +17,7 @@
 
 package amang;
 import amang.BotLogic.BotLogic;
+import amang.Playboard.Playboard;
 
 import java.util.Scanner;
 

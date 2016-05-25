@@ -15,13 +15,13 @@
 //    For the full copyright and license information, please view the LICENSE
 //    file that was distributed with this source code.
 
-package amang;
+package amang.Playboard;
 
 public class Playboard {
     private int[][] mBoard;
     private int mCols = 0, mRows = 0;
-    private String mLastError = "";
-    public int mLastColumn = 0;
+
+    private PlayboardPatternSearch mPlayboardPatternSearch;
 
     public Playboard(int columns, int rows) {
         mBoard = new int[columns][rows];
@@ -38,6 +38,8 @@ public class Playboard {
     public void setColumns(int cols) {
         mCols = cols;
         mBoard = new int[mCols][mRows];
+
+        mPlayboardPatternSearch = new PlayboardPatternSearch(mCols, mRows, mBoard);
     }
 
     /**
@@ -48,6 +50,8 @@ public class Playboard {
     public void setRows(int rows) {
         mRows = rows;
         mBoard = new int[mCols][mRows];
+
+        mPlayboardPatternSearch = new PlayboardPatternSearch(mCols, mRows, mBoard);
     }
 
     /**
@@ -59,29 +63,6 @@ public class Playboard {
                 mBoard[x][y] = 0;
             }
         }
-    }
-
-    /**
-     * Adds a disc to the board
-     *
-     * @param args : command line arguments passed on running of application
-     * @return : true if disc fits, otherwise false
-     */
-    public Boolean addDisc(int column, int disc) {
-        mLastError = "";
-        if (column < mCols) {
-            for (int y = mRows - 1; y >= 0; y--) { // From bottom column up
-                if (mBoard[column][y] == 0) {
-                    mBoard[column][y] = disc;
-                    mLastColumn = column;
-                    return true;
-                }
-            }
-            mLastError = "Column is full.";
-        } else {
-            mLastError = "Move out of bounds.";
-        }
-        return false;
     }
 
     /**
@@ -119,16 +100,6 @@ public class Playboard {
      */
     public Boolean isValidMove(int column) {
         return (mBoard[column][0] == 0);
-    }
-
-    /**
-     * Returns reason why addDisc returns false
-     *
-     * @param args :
-     * @return : reason why addDisc returns false
-     */
-    public String getLastError() {
-        return mLastError;
     }
 
     @Override
@@ -193,51 +164,7 @@ public class Playboard {
         return mCols / 2;
     }
 
-    public int getTopRowValue(int column) {
-        for (int y = mRows - 1; y >= 0; y--) {
-            if(mBoard[column][y] == 0) {
-                if(y == mRows - 1) {
-                    return 0;
-                }
-                return mBoard[column][y + 1];
-            }
-        }
-        return -1;
-    }
-
-    public int getColumnTopRowWithDifferentBotId(int botId) {
-        for (int x = 0; x < mCols; x++) {
-            for (int y = mRows - 1; y >= 0; y--) {
-                if(mBoard[x][y] == 0) {
-                    if(y == mRows - 1) {
-                        break;
-                    }
-                    int previousRowValue = mBoard[x][y + 1];
-                    if(previousRowValue != botId) {
-                        return x;
-                    }
-                    break;
-                }
-            }
-        }
-        return -1;
-    }
-
-    public int getColumnTopRowWithSameBotId(int botId) {
-        for (int x = 0; x < mCols; x++) {
-            for (int y = mRows - 1; y >= 0; y--) {
-                if(mBoard[x][y] == 0) {
-                    if(y == mRows - 1) {
-                        break;
-                    }
-                    int previousRowValue = mBoard[x][y + 1];
-                    if(previousRowValue == botId) {
-                        return x;
-                    }
-                    break;
-                }
-            }
-        }
-        return -1;
+    public PlayboardPatternSearch getPlayboardPatternSearch() {
+        return mPlayboardPatternSearch;
     }
 }

@@ -1,7 +1,6 @@
 package amang.BotLogic;
 
-import amang.Playboard;
-import java.util.Random;
+import amang.Playboard.Playboard;
 
 // Defensive Strategy
 public class SecondMoverStrategy implements IBotStrategy {
@@ -23,13 +22,13 @@ public class SecondMoverStrategy implements IBotStrategy {
 
     @Override
     public int makeTurn() {
-        int blockingColumn = mPlayboard.getColumnTopRowWithDifferentBotId(mBotId);
+        int blockingColumn = mPlayboard.getPlayboardPatternSearch().getColumnTopRowWithDifferentBotId(mBotId);
         if (blockingColumn != -1) {
             mStrategyHelper.trackValidateMove(blockingColumn);
             return blockingColumn;
         }
 
-        int buildingColumn = mPlayboard.getColumnTopRowWithSameBotId(mBotId);
+        int buildingColumn = mPlayboard.getPlayboardPatternSearch().getColumnTopRowWithSameBotId(mBotId);
         if (buildingColumn != -1) {
             mStrategyHelper.trackValidateMove(buildingColumn);
             return buildingColumn;

@@ -1,9 +1,11 @@
 package amang.BotLogic;
 
-import amang.Playboard;
+import amang.Playboard.Playboard;
 
 // Offensive Strategy
 public class FirstMoverStrategy implements IBotStrategy {
+    private static final int FIRST_ROUND = 1;
+
     private int mBotId;
     private int mCurrentRound;
 
@@ -23,7 +25,7 @@ public class FirstMoverStrategy implements IBotStrategy {
 
     @Override
     public int makeTurn() {
-        if (mCurrentRound == 1) {
+        if (mCurrentRound == FIRST_ROUND) {
             return firstRoundMove();
         } else {
             return findNextMove();
@@ -38,7 +40,7 @@ public class FirstMoverStrategy implements IBotStrategy {
 
     private int findNextMove() {
         int lastMove = mStrategyHelper.getLastMove();
-        int topRowValue = mPlayboard.getTopRowValue(lastMove);
+        int topRowValue = mPlayboard.getPlayboardPatternSearch().getTopRowValue(lastMove);
         if(topRowValue == mBotId) {
             if(mStrategyHelper.trackValidateMove(lastMove)){
                 return lastMove;
