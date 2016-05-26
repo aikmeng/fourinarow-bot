@@ -27,24 +27,6 @@ public class PlayboardPatternSearch {
         return COLUMN_INVALID;
     }
 
-    public int getColumnTopRowWithSameBotId(int botId) {
-        for (int x = 0; x < mCols; x++) {
-            for (int y = mRows - 1; y >= 0; y--) {
-                if(mBoard[x][y] == 0) {
-                    if(y == mRows - 1) {
-                        break;
-                    }
-                    int previousRowValue = mBoard[x][y + 1];
-                    if(previousRowValue == botId) {
-                        return x;
-                    }
-                    break;
-                }
-            }
-        }
-        return COLUMN_NOT_FOUND;
-    }
-
     // Possible to have multiple columns as solution. Just get one and return;
     public SearchResult searchHorizontalWinnerColumn() {
         for (int y = mRows - 1; y >= 0; y--) {
@@ -85,6 +67,28 @@ public class PlayboardPatternSearch {
 
         return new SearchResult(COLUMN_UNUSED, COLUMN_NOT_FOUND);
     }
+
+    // Possible to have multiple columns as solution. Just get one and return;
+    public SearchResult searchHorizontalPotentialWinnerColumn() {
+        for (int y = mRows - 1; y >= 0; y--) {
+            for (int x = 0; x < mCols; x++) {
+                if(x + 3 >= mCols) {
+                    continue;
+                }
+                else if(mBoard[x + 1][y] != COLUMN_UNUSED &&                            //check comparing slots have valid botid
+                        (y == mRows - 1 || mBoard[x][y + 1] != COLUMN_UNUSED) &&        //check no row below or row below the return column is occupied
+                        (y == mRows - 1 || mBoard[x + 3][y + 1] != COLUMN_UNUSED) &&    //check no row below or row below the other potential column is occupied
+                        mBoard[x][y] == COLUMN_UNUSED &&
+                        mBoard[x + 1][y] == mBoard[x + 2][y] &&
+                        mBoard[x + 3][y] == COLUMN_UNUSED) {
+                    return new SearchResult(mBoard[x + 1][y], x);
+                }
+            }
+        }
+
+        return new SearchResult(COLUMN_UNUSED, COLUMN_NOT_FOUND);
+    }
+
 
     public SearchResult searchVerticalWinnerColumn() {
         for (int x = 0; x < mCols; x++) {
