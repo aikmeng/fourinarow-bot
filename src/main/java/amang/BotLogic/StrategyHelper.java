@@ -1,6 +1,8 @@
 package amang.BotLogic;
 
 import amang.Playboard.Playboard;
+import amang.Playboard.PlayboardPatternSearch;
+import amang.Playboard.SearchResult;
 
 import java.util.Random;
 
@@ -13,8 +15,25 @@ public class StrategyHelper {
         mLastMove = -1;
     }
 
-    public int getLastMove() {
-        return mLastMove;
+    public int findNextMove(int botId) {
+        SearchResult searchResult = mPlayboard.getPlayboardPatternSearch().searchVerticalWinnerColumn();
+        if(searchResult.getColumnId() != PlayboardPatternSearch.COLUMN_NOT_FOUND){
+            return searchResult.getColumnId();
+        }
+
+        searchResult = mPlayboard.getPlayboardPatternSearch().searchHorizontalWinnerColumn();
+        if(searchResult.getColumnId() != PlayboardPatternSearch.COLUMN_NOT_FOUND){
+            return searchResult.getColumnId();
+        }
+
+        int topRowValue = mPlayboard.getPlayboardPatternSearch().getTopRowValue(mLastMove);
+        if(topRowValue == botId) {
+            if(trackValidateMove(mLastMove)){
+                return mLastMove;
+            }
+        }
+
+        return findRandomMove();
     }
 
     public int findRandomMove() {

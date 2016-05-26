@@ -7,12 +7,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
+public class PlayboardPatternSearchTest_SearchHorizontalWinnerColumn {
     private static int MAX_COLUMN = 7;
     private static int MAX_ROW = 6;
 
     @Test
-    public void testFindHorizontalWinnerColumn_boundary_1() {
+    public void testSearchHorizontalWinnerColumn_boundary_1() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -27,7 +27,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_negative_case_1() {
+    public void testSearchHorizontalWinnerColumn_negative_case_1() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -42,7 +42,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_negative_case_2() {
+    public void testSearchHorizontalWinnerColumn_negative_case_2() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -57,7 +57,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_negative_case_3() {
+    public void testSearchHorizontalWinnerColumn_negative_case_3() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -72,7 +72,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_1() {
+    public void testSearchHorizontalWinnerColumn_case_1() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -87,7 +87,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_2() {
+    public void testSearchHorizontalWinnerColumn_case_2() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -102,7 +102,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_3() {
+    public void testSearchHorizontalWinnerColumn_case_3() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -117,7 +117,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_4() {
+    public void testSearchHorizontalWinnerColumn_case_4() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -132,7 +132,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_5() {
+    public void testSearchHorizontalWinnerColumn_case_5() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -147,7 +147,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_6() {
+    public void testSearchHorizontalWinnerColumn_case_6() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -162,7 +162,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_7() {
+    public void testSearchHorizontalWinnerColumn_case_7() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -177,7 +177,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_8() {
+    public void testSearchHorizontalWinnerColumn_case_8() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -192,7 +192,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_9() {
+    public void testSearchHorizontalWinnerColumn_case_9() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +
@@ -207,7 +207,7 @@ public class PlayboardPatternSearchTest_FindHorizontalWinnerColumn {
     }
 
     @Test
-    public void testFindHorizontalWinnerColumn_case_10() {
+    public void testSearchHorizontalWinnerColumn_case_10() {
         Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
         String fieldString =    "0,0,0,0,0,0,0;" +
                                 "0,0,0,0,0,0,0;" +

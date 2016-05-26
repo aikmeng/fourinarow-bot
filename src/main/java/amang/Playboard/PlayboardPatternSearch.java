@@ -27,24 +27,6 @@ public class PlayboardPatternSearch {
         return COLUMN_INVALID;
     }
 
-    public int getColumnTopRowWithDifferentBotId(int botId) {
-        for (int x = 0; x < mCols; x++) {
-            for (int y = mRows - 1; y >= 0; y--) {
-                if(mBoard[x][y] == 0) {
-                    if(y == mRows - 1) {
-                        break;
-                    }
-                    int previousRowValue = mBoard[x][y + 1];
-                    if(previousRowValue != botId) {
-                        return x;
-                    }
-                    break;
-                }
-            }
-        }
-        return COLUMN_NOT_FOUND;
-    }
-
     public int getColumnTopRowWithSameBotId(int botId) {
         for (int x = 0; x < mCols; x++) {
             for (int y = mRows - 1; y >= 0; y--) {
@@ -97,6 +79,24 @@ public class PlayboardPatternSearch {
                         mBoard[x][y] == mBoard[x + 1][y] &&
                         mBoard[x + 1][y] == mBoard[x + 2][y]) {
                     return new SearchResult(mBoard[x][y], x + 3);
+                }
+            }
+        }
+
+        return new SearchResult(COLUMN_UNUSED, COLUMN_NOT_FOUND);
+    }
+
+    public SearchResult searchVerticalWinnerColumn() {
+        for (int x = 0; x < mCols; x++) {
+            for (int y = mRows - 1; y >= 0; y--) {
+                if(y - 3 < 0) {
+                    continue;
+                }
+                else if(mBoard[x][y - 3] == COLUMN_UNUSED &&            //return column must be unused
+                        mBoard[x][y] != COLUMN_UNUSED &&                //current slot must be valid botid
+                        mBoard[x][y] == mBoard[x][y - 1] &&
+                        mBoard[x][y - 1] == mBoard[x][y - 2]) {
+                    return new SearchResult(mBoard[x][y], x);
                 }
             }
         }
