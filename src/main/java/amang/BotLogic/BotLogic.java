@@ -20,10 +20,6 @@ public class BotLogic {
         }
     }
 
-    public void updateRound(int round) {
-        mBotStrategy.updateRound(round);
-    }
-
     public int makeTurn() {
         return mBotStrategy.makeTurn();
     }

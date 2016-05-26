@@ -7,7 +7,6 @@ import amang.Playboard.SearchResult;
 // Defensive Strategy
 public class SecondMoverStrategy implements IBotStrategy {
     private int mBotId;
-    private int mCurrentRound;
     private Playboard mPlayboard;
     private StrategyHelper mStrategyHelper;
 
@@ -15,11 +14,6 @@ public class SecondMoverStrategy implements IBotStrategy {
         mBotId = botId;
         mPlayboard = playboard;
         mStrategyHelper = strategyHelper;
-    }
-
-    @Override
-    public void updateRound(int round) {
-        mCurrentRound = round;
     }
 
     @Override

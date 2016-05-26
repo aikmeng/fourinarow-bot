@@ -6,12 +6,8 @@ import amang.Playboard.SearchResult;
 
 // Offensive Strategy
 public class FirstMoverStrategy implements IBotStrategy {
-    private static final int FIRST_ROUND = 1;
-
     private int mBotId;
-    private int mCurrentRound;
     private boolean isFirstMove;
-
     private Playboard mPlayboard;
     private StrategyHelper mStrategyHelper;
 
@@ -20,11 +16,6 @@ public class FirstMoverStrategy implements IBotStrategy {
         mPlayboard = playboard;
         mStrategyHelper = strategyHelper;
         isFirstMove = true;
-    }
-
-    @Override
-    public void updateRound(int round) {
-        mCurrentRound = round;
     }
 
     @Override
