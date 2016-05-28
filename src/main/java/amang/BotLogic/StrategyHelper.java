@@ -26,6 +26,11 @@ public class StrategyHelper {
             return searchResult.getColumnId();
         }
 
+        searchResult = mPlayboard.getPlayboardPatternSearch().searchDiagonalUpWinnerColumn();
+        if(searchResult.getColumnId() != PlayboardPatternSearch.COLUMN_NOT_FOUND){
+            return searchResult.getColumnId();
+        }
+
         searchResult = mPlayboard.getPlayboardPatternSearch().searchHorizontalPotentialWinnerColumn();
         if(searchResult.getColumnId() != PlayboardPatternSearch.COLUMN_NOT_FOUND){
             return searchResult.getColumnId();
