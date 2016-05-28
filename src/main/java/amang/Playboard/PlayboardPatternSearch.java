@@ -140,4 +140,41 @@ public class PlayboardPatternSearch {
         return new SearchResult(COLUMN_UNUSED, COLUMN_NOT_FOUND);
     }
 
+    public SearchResult searchDiagonalDownWinnerColumn() {
+        for (int y = 0; y < mRows; y++) {
+            for (int x = 0; x < mCols; x++) {
+                if (mBoard[x][y] != COLUMN_UNUSED) {                                //check current slot is occupied.
+                    continue;
+                } else if (x + 3 < mCols && y + 3 < mRows &&                        //ensure boundary not hit
+                        mBoard[x + 1][y + 1] != COLUMN_UNUSED &&                    //check valid botid before comparing
+                        (y == mRows - 1 || mBoard[x][y + 1] != COLUMN_UNUSED) &&    //check row below is occupied before returning
+                        mBoard[x + 1][y + 1] == mBoard[x + 2][y + 2] &&
+                        mBoard[x + 2][y + 2] == mBoard[x + 3][y + 3]) {
+                    return new SearchResult(mBoard[x + 1][y + 1], x);
+                } else if (x + 2 < mCols && y + 2 < mRows &&                        //ensure boundary not hit
+                        x - 1 >= 0 && y - 1 >= 0 &&                                 //ensure boundary not hit
+                        mBoard[x - 1][y - 1] != COLUMN_UNUSED &&                    //check valid botid before comparing
+                        (y == mRows - 1 || mBoard[x][y + 1] != COLUMN_UNUSED) &&    //check row below is occupied before returning
+                        mBoard[x - 1][y - 1] == mBoard[x + 1][y + 1] &&
+                        mBoard[x + 1][y + 1] == mBoard[x + 2][y + 2]) {
+                    return new SearchResult(mBoard[x + 1][y + 1], x);
+                } else if (x + 1 < mCols && y + 1 < mRows &&                        //ensure boundary not hit
+                        x - 2 >= 0 && y - 2 >= 0 &&                                 //ensure boundary not hit
+                        mBoard[x - 2][y - 2] != COLUMN_UNUSED &&                    //check valid botid before comparing
+                        (y == mRows - 1 || mBoard[x][y + 1] != COLUMN_UNUSED) &&    //check row below is occupied before returning
+                        mBoard[x - 2][y - 2] == mBoard[x - 1][y - 1] &&
+                        mBoard[x - 1][y - 1] == mBoard[x + 1][y + 1]) {
+                    return new SearchResult(mBoard[x + 1][y + 1], x);
+                } else if (x - 3 >= 0 && y - 3 >= 0 &&                        //ensure boundary not hit
+                        mBoard[x - 3][y - 3] != COLUMN_UNUSED &&                    //check valid botid before comparing
+                        (y == mRows - 1 || mBoard[x][y + 1] != COLUMN_UNUSED) &&    //check row below is occupied before returning
+                        mBoard[x - 3][y - 3] == mBoard[x - 2][y - 2] &&
+                        mBoard[x - 2][y - 2] == mBoard[x - 1][y - 1]) {
+                    return new SearchResult(mBoard[x - 1][y - 1], x);
+                }
+            }
+        }
+
+        return new SearchResult(COLUMN_UNUSED, COLUMN_NOT_FOUND);
+    }
 }
