@@ -24,11 +24,28 @@ public class Playboard {
     private PlayboardPatternSearch mPlayboardPatternSearch;
 
     public Playboard(int columns, int rows) {
-        mBoard = new int[columns][rows];
         mCols = columns;
         mRows = rows;
-        clearBoard();
 
+        Initialize();
+    }
+
+    public Playboard(Playboard playboard) {
+        mCols = playboard.getNrColumns();
+        mRows = playboard.getNrRows();
+
+        Initialize();
+
+        for(int currentRow = 0; currentRow < mRows; currentRow++) {
+            for(int currentColumn = 0; currentColumn < mCols; currentColumn++) {
+                mBoard[currentColumn][currentRow] = playboard.getDisc(currentColumn, currentRow);
+            }
+        }
+    }
+
+    private void Initialize() {
+        mBoard = new int[mCols][mRows];
+        clearBoard();
         mPlayboardPatternSearch = new PlayboardPatternSearch(mCols, mRows, mBoard);
     }
 

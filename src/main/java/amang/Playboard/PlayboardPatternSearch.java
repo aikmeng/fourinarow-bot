@@ -177,4 +177,9 @@ public class PlayboardPatternSearch {
 
         return new SearchResult(COLUMN_UNUSED, COLUMN_NOT_FOUND);
     }
+
+    //TODO: Implement
+    public SearchResult searchWinnerColumn(int columnId) {
+        return new SearchResult(-1, -1);
+    }
 }
