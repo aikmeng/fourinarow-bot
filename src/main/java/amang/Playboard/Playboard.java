@@ -183,6 +183,19 @@ public class Playboard {
         return mCols / 2;
     }
 
+    public Boolean addDisc(int column, int disc) {
+        if (column < mCols) {
+            for (int y = mRows - 1; y >= 0; y--) { // From bottom column up
+                if (mBoard[column][y] == 0) {
+                    mBoard[column][y] = disc;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
     public PlayboardPatternSearch getPlayboardPatternSearch() {
         return mPlayboardPatternSearch;
     }
