@@ -55,7 +55,7 @@ public class MinMaxStrategy implements IBotStrategy {
             return currentSearchDepth * TURN_SCORE;
         }
 
-        SearchResult searchResult = previousPlayboard.getPlayboardPatternSearch().searchWinnerColumn(columnId);
+        SearchResult searchResult = previousPlayboard.getPlayboardPatternSearch().searchWinnerByColumnId(columnId);
         if(searchResult.getBotId() == mBotId) {
             return (maxTurns - currentSearchDepth) * TURN_SCORE;
         } else if(searchResult.getBotId() == mOpponentBotId) {

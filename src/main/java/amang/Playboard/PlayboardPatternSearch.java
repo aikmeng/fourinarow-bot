@@ -179,7 +179,7 @@ public class PlayboardPatternSearch {
         return new SearchResult(UNUSED_SLOT, COLUMN_NOT_FOUND);
     }
 
-    public SearchResult searchWinnerColumn(int columnId) {
+    public SearchResult searchWinnerByColumnId(int columnId) {
         int rowId = searchRowPosition(columnId);
         if(rowId == ROW_NOT_FOUND) {
             return new SearchResult(UNUSED_SLOT, COLUMN_NOT_FOUND);
@@ -246,31 +246,9 @@ public class PlayboardPatternSearch {
 
     private SearchResult searchVerticalWinner(int columnId, int rowId) {
         if (rowId + 3 < mRows &&                                                //check index out of range error
-                mBoard[columnId][rowId + 1] != UNUSED_SLOT &&                   //slot must be valid botid before comparing
                 mBoard[columnId][rowId + 1] == mBoard[columnId][rowId + 2] &&   //check for continuous vertical pattern
                 mBoard[columnId][rowId + 2] == mBoard[columnId][rowId + 3]) {
             return new SearchResult(mBoard[columnId][rowId + 1], columnId);
-        }
-
-        if (rowId - 1 >= 0 && rowId + 2 < mRows &&
-                mBoard[columnId][rowId - 1] != UNUSED_SLOT &&
-                mBoard[columnId][rowId - 1] == mBoard[columnId][rowId + 1] &&
-                mBoard[columnId][rowId + 1] == mBoard[columnId][rowId + 2]) {
-            return new SearchResult(mBoard[columnId][rowId - 1], columnId);
-        }
-
-        if (rowId - 2 >= 0 && rowId + 1 < mRows &&
-                mBoard[columnId][rowId - 2] != UNUSED_SLOT &&
-                mBoard[columnId][rowId - 2] == mBoard[columnId][rowId - 1] &&
-                mBoard[columnId][rowId - 1] == mBoard[columnId][rowId + 1]) {
-            return new SearchResult(mBoard[columnId][rowId - 2], columnId);
-        }
-
-        if (rowId - 3 >= 0 &&
-                mBoard[columnId][rowId - 3] != UNUSED_SLOT &&
-                mBoard[columnId][rowId - 3] == mBoard[columnId][rowId - 2] &&
-                mBoard[columnId][rowId - 2] == mBoard[columnId][rowId - 1]) {
-            return new SearchResult(mBoard[columnId][rowId - 3], columnId);
         }
 
         return null;
@@ -313,7 +291,7 @@ public class PlayboardPatternSearch {
     }
 
     private SearchResult searchDiagonalDownWinner(int columnId, int rowId) {
-        if (columnId - 3 < mCols &&                                                     //check index out of range error
+        if (columnId - 3 >= 0 &&                                                     //check index out of range error
                 rowId - 3 >= 0 &&                                                       //check index out of range error
                 mBoard[columnId - 1][rowId - 1] != UNUSED_SLOT &&                       //slot must be valid botid before comparing
                 mBoard[columnId - 1][rowId - 1] == mBoard[columnId - 2][rowId - 2] &&   //check for continuous diagonal down pattern
@@ -341,7 +319,7 @@ public class PlayboardPatternSearch {
                 rowId + 3 < mRows &&
                 mBoard[columnId + 3][rowId + 3] != UNUSED_SLOT &&
                 mBoard[columnId + 3][rowId + 3] == mBoard[columnId + 2][rowId + 2] &&
-                mBoard[columnId + 2][rowId + 2] == mBoard[columnId - 1][rowId - 1]) {
+                mBoard[columnId + 2][rowId + 2] == mBoard[columnId + 1][rowId + 1]) {
             return new SearchResult(mBoard[columnId + 3][rowId + 3], columnId);
         }
 
