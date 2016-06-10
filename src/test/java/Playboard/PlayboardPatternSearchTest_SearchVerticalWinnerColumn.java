@@ -22,7 +22,7 @@ public class PlayboardPatternSearchTest_SearchVerticalWinnerColumn {
                                 "0,0,0,0,0,0,0";
         classUnderTest.parseFromString(fieldString);
         SearchResult searchResult = classUnderTest.getPlayboardPatternSearch().searchVerticalWinnerColumn();
-        assertEquals(PlayboardPatternSearch.COLUMN_UNUSED, searchResult.getBotId());
+        assertEquals(PlayboardPatternSearch.UNUSED_SLOT, searchResult.getBotId());
         assertEquals(PlayboardPatternSearch.COLUMN_NOT_FOUND, searchResult.getColumnId());
     }
 
@@ -37,7 +37,7 @@ public class PlayboardPatternSearchTest_SearchVerticalWinnerColumn {
                                 "1,0,0,0,0,0,0";
         classUnderTest.parseFromString(fieldString);
         SearchResult searchResult = classUnderTest.getPlayboardPatternSearch().searchVerticalWinnerColumn();
-        assertEquals(PlayboardPatternSearch.COLUMN_UNUSED, searchResult.getBotId());
+        assertEquals(PlayboardPatternSearch.UNUSED_SLOT, searchResult.getBotId());
         assertEquals(PlayboardPatternSearch.COLUMN_NOT_FOUND, searchResult.getColumnId());
     }
 

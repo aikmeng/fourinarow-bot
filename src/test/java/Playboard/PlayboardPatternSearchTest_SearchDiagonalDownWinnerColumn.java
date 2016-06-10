@@ -22,7 +22,7 @@ public class PlayboardPatternSearchTest_SearchDiagonalDownWinnerColumn {
                                 "0,0,0,0,0,0,0";
         classUnderTest.parseFromString(fieldString);
         SearchResult searchResult = classUnderTest.getPlayboardPatternSearch().searchDiagonalDownWinnerColumn();
-        assertEquals(PlayboardPatternSearch.COLUMN_UNUSED, searchResult.getBotId());
+        assertEquals(PlayboardPatternSearch.UNUSED_SLOT, searchResult.getBotId());
         assertEquals(PlayboardPatternSearch.COLUMN_NOT_FOUND, searchResult.getColumnId());
     }
 
@@ -37,7 +37,7 @@ public class PlayboardPatternSearchTest_SearchDiagonalDownWinnerColumn {
                                 "1,1,2,1,0,0,0";
         classUnderTest.parseFromString(fieldString);
         SearchResult searchResult = classUnderTest.getPlayboardPatternSearch().searchDiagonalDownWinnerColumn();
-        assertEquals(PlayboardPatternSearch.COLUMN_UNUSED, searchResult.getBotId());
+        assertEquals(PlayboardPatternSearch.UNUSED_SLOT, searchResult.getBotId());
         assertEquals(PlayboardPatternSearch.COLUMN_NOT_FOUND, searchResult.getColumnId());
     }
 
@@ -52,7 +52,7 @@ public class PlayboardPatternSearchTest_SearchDiagonalDownWinnerColumn {
                                 "1,2,0,2,2,1,1";
         classUnderTest.parseFromString(fieldString);
         SearchResult searchResult = classUnderTest.getPlayboardPatternSearch().searchDiagonalDownWinnerColumn();
-        assertEquals(PlayboardPatternSearch.COLUMN_UNUSED, searchResult.getBotId());
+        assertEquals(PlayboardPatternSearch.UNUSED_SLOT, searchResult.getBotId());
         assertEquals(PlayboardPatternSearch.COLUMN_NOT_FOUND, searchResult.getColumnId());
     }
 
@@ -67,7 +67,7 @@ public class PlayboardPatternSearchTest_SearchDiagonalDownWinnerColumn {
                                 "0,1,1,2,0,2,1";
         classUnderTest.parseFromString(fieldString);
         SearchResult searchResult = classUnderTest.getPlayboardPatternSearch().searchDiagonalDownWinnerColumn();
-        assertEquals(PlayboardPatternSearch.COLUMN_UNUSED, searchResult.getBotId());
+        assertEquals(PlayboardPatternSearch.UNUSED_SLOT, searchResult.getBotId());
         assertEquals(PlayboardPatternSearch.COLUMN_NOT_FOUND, searchResult.getColumnId());
     }
 
