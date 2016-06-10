@@ -14,6 +14,8 @@ public class MinMaxStrategy implements IBotStrategy {
     public static final int SECOND_BOT_ID = 2;
 
     public MinMaxStrategy(int botId, Playboard playboard) {
+        System.err.println("Using new strategy");
+
         mBotId = botId;
         mPlayboard = playboard;
 
@@ -31,9 +33,11 @@ public class MinMaxStrategy implements IBotStrategy {
 
         int currentHighestScore = Integer.MIN_VALUE;
         int highestScoreColumnId = INVALID_COLUMN_ID;
-        int currentSearchDepth = 0;
 
         for(int currentColumnId = 0; currentColumnId < maxColumns; currentColumnId++) {
+            System.err.println("Analyse " + currentColumnId + "...");
+            int currentSearchDepth = 0;
+
             if (mPlayboard.isColumnFull(currentColumnId)) {
                 continue;
             }
@@ -50,6 +54,8 @@ public class MinMaxStrategy implements IBotStrategy {
     }
 
     private int CalculateColumnScore(int maxColumns, int maxTurns, int columnId, int currentSearchDepth, Playboard previousPlayboard) {
+        System.err.println("ColumnId " + columnId + " CurrentSearchDepth " + currentSearchDepth);
+
         // Hit current depth limit, return depth score
         if(currentSearchDepth > MAX_SEARCH_DEPTH) {
             return currentSearchDepth * TURN_SCORE;
