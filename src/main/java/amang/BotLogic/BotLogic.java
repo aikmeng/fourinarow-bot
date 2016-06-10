@@ -6,14 +6,14 @@ public class BotLogic {
     private static final int STARTER_BOT_ID = 1;
 
     private Playboard mPlayboard;
-    private OffensiveStrategy mBotStrategy;
+    private SimpleStrategy mBotStrategy;
 
     public BotLogic(Playboard playboard) {
         mPlayboard = playboard;
     }
 
     public void decideStrategy(int botId) {
-        mBotStrategy = new OffensiveStrategy(botId, mPlayboard, new StrategyHelper(mPlayboard));
+        mBotStrategy = new SimpleStrategy(botId, mPlayboard, new StrategyHelper(mPlayboard));
     }
 
     public int makeTurn() {

@@ -2,13 +2,13 @@ package amang.BotLogic;
 
 import amang.Playboard.Playboard;
 
-public class OffensiveStrategy implements IBotStrategy {
+public class SimpleStrategy implements IBotStrategy {
     private int mBotId;
     private boolean isFirstMove;
     private Playboard mPlayboard;
     private StrategyHelper mStrategyHelper;
 
-    public OffensiveStrategy(int botId, Playboard playboard, StrategyHelper strategyHelper) {
+    public SimpleStrategy(int botId, Playboard playboard, StrategyHelper strategyHelper) {
         mBotId = botId;
         mPlayboard = playboard;
         mStrategyHelper = strategyHelper;
