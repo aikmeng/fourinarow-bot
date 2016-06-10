@@ -7,9 +7,7 @@ public class MinMaxStrategy implements IBotStrategy {
     private int mBotId;
     private int mOpponentBotId;
     private Playboard mPlayboard;
-    public static final int WINNING_COLUMN_SCORE = 2100;
-    public static final int LOSING_COLUMN_SCORE = -2100;
-    public static final int DEPTH_COLUMN_SCORE = 100;
+    public static final int TURN_SCORE = 10;
     public static final int INVALID_COLUMN_ID = -1;
     public static final int MAX_SEARCH_DEPTH = 3;
     public static final int FIRST_BOT_ID = 1;
@@ -27,18 +25,20 @@ public class MinMaxStrategy implements IBotStrategy {
 
     @Override
     public int makeTurn() {
-        int maxColumn = mPlayboard.getNrColumns();
+        int maxColumns = mPlayboard.getNrColumns();
+        int maxRows = mPlayboard.getNrRows();
+        int maxTurns = maxRows * maxColumns / 2;
 
-        int currentHighestScore = LOSING_COLUMN_SCORE;
+        int currentHighestScore = Integer.MIN_VALUE;
         int highestScoreColumnId = INVALID_COLUMN_ID;
         int currentSearchDepth = 0;
 
-        for(int currentColumnId = 0; currentColumnId < maxColumn; currentColumnId++) {
+        for(int currentColumnId = 0; currentColumnId < maxColumns; currentColumnId++) {
             if (mPlayboard.isColumnFull(currentColumnId)) {
                 continue;
             }
 
-            int currentColumnScore = CalculateColumnScore(maxColumn, currentColumnId, currentSearchDepth, mPlayboard);
+            int currentColumnScore = CalculateColumnScore(maxColumns, maxTurns, currentColumnId, currentSearchDepth, mPlayboard);
 
             if(currentHighestScore < currentColumnScore) {
                 currentHighestScore = currentColumnScore;
@@ -49,17 +49,17 @@ public class MinMaxStrategy implements IBotStrategy {
         return highestScoreColumnId;
     }
 
-    private int CalculateColumnScore(int maxColumn, int columnId, int currentSearchDepth, Playboard previousPlayboard) {
+    private int CalculateColumnScore(int maxColumns, int maxTurns, int columnId, int currentSearchDepth, Playboard previousPlayboard) {
         // Hit current depth limit, return depth score
         if(currentSearchDepth > MAX_SEARCH_DEPTH) {
-            return DEPTH_COLUMN_SCORE * currentSearchDepth;
+            return currentSearchDepth * TURN_SCORE;
         }
 
         SearchResult searchResult = previousPlayboard.getPlayboardPatternSearch().searchWinnerColumn(columnId);
         if(searchResult.getBotId() == mBotId) {
-            return WINNING_COLUMN_SCORE - (DEPTH_COLUMN_SCORE * currentSearchDepth);
+            return (maxTurns - currentSearchDepth) * TURN_SCORE;
         } else if(searchResult.getBotId() == mOpponentBotId) {
-            return LOSING_COLUMN_SCORE + (DEPTH_COLUMN_SCORE * currentSearchDepth);
+            return (maxTurns - currentSearchDepth) * TURN_SCORE * -1;
         }
 
         // Winner not found, apply current column id
@@ -68,7 +68,7 @@ public class MinMaxStrategy implements IBotStrategy {
 
         // Apply opponent bot id, search recursively
         int accumulatedScore = 0;
-        for(int currentColumnId = 0; currentColumnId < maxColumn; currentColumnId++) {
+        for(int currentColumnId = 0; currentColumnId < maxColumns; currentColumnId++) {
             if (currentPlayboard.isColumnFull(currentColumnId)) {
                 continue;
             }
@@ -79,12 +79,12 @@ public class MinMaxStrategy implements IBotStrategy {
             }
 
             //Check for bot winner after apply opponent change
-            for(int nextColumnId = 0; nextColumnId < maxColumn; nextColumnId++) {
+            for(int nextColumnId = 0; nextColumnId < maxColumns; nextColumnId++) {
                 if (nextPlayboard.isColumnFull(nextColumnId)) {
                     continue;
                 }
 
-                accumulatedScore += CalculateColumnScore(maxColumn, nextColumnId, currentSearchDepth++, nextPlayboard);
+                accumulatedScore += CalculateColumnScore(maxColumns, maxTurns, nextColumnId, currentSearchDepth++, nextPlayboard);
             }
         }
 
