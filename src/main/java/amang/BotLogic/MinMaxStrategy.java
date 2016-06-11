@@ -6,7 +6,9 @@ import amang.Playboard.SearchResult;
 public class MinMaxStrategy implements IBotStrategy {
     private int mBotId;
     private int mOpponentBotId;
+    private int mCurrentSearchDepth;
     private Playboard mPlayboard;
+    
     public static final int TURN_SCORE = 10;
     public static final int INVALID_COLUMN_ID = -1;
     public static final int MAX_SEARCH_DEPTH = 3;
@@ -36,13 +38,14 @@ public class MinMaxStrategy implements IBotStrategy {
 
         for(int currentColumnId = 0; currentColumnId < maxColumns; currentColumnId++) {
             System.err.println("Analyse " + currentColumnId + "...");
-            int currentSearchDepth = 0;
+            mCurrentSearchDepth = 0;
 
             if (mPlayboard.isColumnFull(currentColumnId)) {
                 continue;
             }
 
-            int currentColumnScore = CalculateColumnScore(maxColumns, maxTurns, currentColumnId, currentSearchDepth, mPlayboard);
+            int currentColumnScore = CalculateColumnScore(maxColumns, maxTurns, currentColumnId, mPlayboard);
+            System.err.println("CurrentColumnId " + currentColumnId + " CurrentScore " + currentColumnScore);
 
             if(currentHighestScore < currentColumnScore) {
                 currentHighestScore = currentColumnScore;
@@ -53,19 +56,17 @@ public class MinMaxStrategy implements IBotStrategy {
         return highestScoreColumnId;
     }
 
-    private int CalculateColumnScore(int maxColumns, int maxTurns, int columnId, int currentSearchDepth, Playboard previousPlayboard) {
-        System.err.println("ColumnId " + columnId + " CurrentSearchDepth " + currentSearchDepth);
-
+    private int CalculateColumnScore(int maxColumns, int maxTurns, int columnId, Playboard previousPlayboard) {
         // Hit current depth limit, return depth score
-        if(currentSearchDepth > MAX_SEARCH_DEPTH) {
-            return currentSearchDepth * TURN_SCORE;
+        if(mCurrentSearchDepth > MAX_SEARCH_DEPTH) {
+            return 0;
         }
 
         SearchResult searchResult = previousPlayboard.getPlayboardPatternSearch().searchWinnerByColumnId(columnId);
         if(searchResult.getBotId() == mBotId) {
-            return (maxTurns - currentSearchDepth) * TURN_SCORE;
+            return (maxTurns - mCurrentSearchDepth) * TURN_SCORE;
         } else if(searchResult.getBotId() == mOpponentBotId) {
-            return (maxTurns - currentSearchDepth) * TURN_SCORE * -1;
+            return (maxTurns - mCurrentSearchDepth) * TURN_SCORE * -1;
         }
 
         // Winner not found, apply current column id
@@ -74,6 +75,7 @@ public class MinMaxStrategy implements IBotStrategy {
 
         // Apply opponent bot id, search recursively
         int accumulatedScore = 0;
+        mCurrentSearchDepth++;
         for(int currentColumnId = 0; currentColumnId < maxColumns; currentColumnId++) {
             if (currentPlayboard.isColumnFull(currentColumnId)) {
                 continue;
@@ -90,9 +92,13 @@ public class MinMaxStrategy implements IBotStrategy {
                     continue;
                 }
 
-                accumulatedScore += CalculateColumnScore(maxColumns, maxTurns, nextColumnId, currentSearchDepth++, nextPlayboard);
+                int currentScore = CalculateColumnScore(maxColumns, maxTurns, nextColumnId, nextPlayboard);
+                accumulatedScore += currentScore;
+
+
             }
         }
+        mCurrentSearchDepth--;
 
         return accumulatedScore;
     }
