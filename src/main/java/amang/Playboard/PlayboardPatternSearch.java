@@ -5,6 +5,7 @@ public class PlayboardPatternSearch {
     public static final int COLUMN_NOT_FOUND = -1;
     public static final int ROW_NOT_FOUND = -1;
     public static final int UNUSED_SLOT = 0;
+    private final int INAROW = 4; /* Number of cells in a row needed for a win */
 
     private int[][] mBoard;
     private int mCols = 0;
@@ -179,160 +180,93 @@ public class PlayboardPatternSearch {
         return new SearchResult(UNUSED_SLOT, COLUMN_NOT_FOUND);
     }
 
-    public SearchResult searchWinnerByColumnId(int columnId) {
-        int rowId = searchRowPosition(columnId);
-        if(rowId == ROW_NOT_FOUND) {
-            return new SearchResult(UNUSED_SLOT, COLUMN_NOT_FOUND);
-        }
-
-        if (mBoard[columnId][rowId] != UNUSED_SLOT){
-            return new SearchResult(UNUSED_SLOT, COLUMN_NOT_FOUND);
-        }
-
-        SearchResult searchResult = searchHorizontalWinner(columnId, rowId);
-        if(searchResult != null) {
-            return searchResult;
-        }
-
-        searchResult = searchVerticalWinner(columnId, rowId);
-        if(searchResult != null) {
-            return searchResult;
-        }
-
-        searchResult = searchDiagonalUpWinner(columnId, rowId);
-        if(searchResult != null) {
-            return searchResult;
-        }
-
-        searchResult = searchDiagonalDownWinner(columnId, rowId);
-        if(searchResult != null) {
-            return searchResult;
-        }
-
-        return new SearchResult(UNUSED_SLOT, COLUMN_NOT_FOUND);
-    }
-
-    private SearchResult searchHorizontalWinner(int columnId, int rowId) {
-        if (columnId + 3 < mCols &&                                             //check index out of range error
-                mBoard[columnId + 1][rowId] != UNUSED_SLOT &&                   //slot must be valid botid before comparing
-                mBoard[columnId + 1][rowId] == mBoard[columnId + 2][rowId] &&   //check for continuous horizontal pattern
-                mBoard[columnId + 2][rowId] == mBoard[columnId + 3][rowId]) {
-            return new SearchResult(mBoard[columnId + 1][rowId], columnId);
-        }
-
-        if (columnId - 1 >= 0 && columnId + 2 < mCols &&
-                mBoard[columnId - 1][rowId] != UNUSED_SLOT &&
-                mBoard[columnId - 1][rowId] == mBoard[columnId + 1][rowId] &&
-                mBoard[columnId + 1][rowId] == mBoard[columnId + 2][rowId]) {
-            return new SearchResult(mBoard[columnId - 1][rowId], columnId);
-        }
-
-        if (columnId - 2 >= 0 && columnId + 1 < mCols &&
-                mBoard[columnId - 2][rowId] != UNUSED_SLOT &&
-                mBoard[columnId - 2][rowId] == mBoard[columnId - 1][rowId] &&
-                mBoard[columnId - 1][rowId] == mBoard[columnId + 1][rowId]) {
-            return new SearchResult(mBoard[columnId - 2][rowId], columnId);
-        }
-
-        if (columnId - 3 >= 0 &&
-                mBoard[columnId - 3][rowId] != UNUSED_SLOT &&
-                mBoard[columnId - 3][rowId] == mBoard[columnId - 2][rowId] &&
-                mBoard[columnId - 2][rowId] == mBoard[columnId - 1][rowId]) {
-            return new SearchResult(mBoard[columnId - 3][rowId], columnId);
-        }
-
-        return null;
-    }
-
-    private SearchResult searchVerticalWinner(int columnId, int rowId) {
-        if (rowId + 3 < mRows &&                                                //check index out of range error
-                mBoard[columnId][rowId + 1] == mBoard[columnId][rowId + 2] &&   //check for continuous vertical pattern
-                mBoard[columnId][rowId + 2] == mBoard[columnId][rowId + 3]) {
-            return new SearchResult(mBoard[columnId][rowId + 1], columnId);
-        }
-
-        return null;
-    }
-
-    private SearchResult searchDiagonalUpWinner(int columnId, int rowId) {
-        if (columnId + 3 < mCols &&                                                     //check index out of range error
-                rowId - 3 >= 0 &&                                                       //check index out of range error
-                mBoard[columnId + 1][rowId - 1] != UNUSED_SLOT &&                       //slot must be valid botid before comparing
-                mBoard[columnId + 1][rowId - 1] == mBoard[columnId + 2][rowId - 2] &&   //check for continuous diagonal up pattern
-                mBoard[columnId + 2][rowId - 2] == mBoard[columnId + 3][rowId - 3]) {
-            return new SearchResult(mBoard[columnId + 1][rowId - 1], columnId);
-        }
-
-        if (columnId - 1 >= 0 && columnId + 2 < mCols &&
-                rowId - 2 >= 0 && rowId + 1 < mRows &&
-                mBoard[columnId - 1][rowId + 1] != UNUSED_SLOT &&
-                mBoard[columnId - 1][rowId + 1] == mBoard[columnId + 1][rowId - 1] &&
-                mBoard[columnId + 1][rowId - 1] == mBoard[columnId + 2][rowId - 2]) {
-            return new SearchResult(mBoard[columnId - 1][rowId + 1], columnId);
-        }
-
-        if (columnId - 2 >= 0 && columnId + 1 < mCols &&
-                rowId - 1 >= 0 && rowId + 2 < mRows &&
-                mBoard[columnId - 2][rowId + 2] != UNUSED_SLOT &&
-                mBoard[columnId - 2][rowId + 2] == mBoard[columnId - 1][rowId + 1] &&
-                mBoard[columnId - 1][rowId + 1] == mBoard[columnId + 1][rowId - 1]) {
-            return new SearchResult(mBoard[columnId - 2][rowId + 2], columnId);
-        }
-
-        if (columnId - 3 >= 0 &&
-                rowId + 3 < mRows &&
-                mBoard[columnId - 3][rowId + 3] != UNUSED_SLOT &&
-                mBoard[columnId - 3][rowId + 3] == mBoard[columnId - 2][rowId + 2] &&
-                mBoard[columnId - 2][rowId + 2] == mBoard[columnId - 1][rowId + 1]) {
-            return new SearchResult(mBoard[columnId - 3][rowId + 3], columnId);
-        }
-
-        return null;
-    }
-
-    private SearchResult searchDiagonalDownWinner(int columnId, int rowId) {
-        if (columnId - 3 >= 0 &&                                                     //check index out of range error
-                rowId - 3 >= 0 &&                                                       //check index out of range error
-                mBoard[columnId - 1][rowId - 1] != UNUSED_SLOT &&                       //slot must be valid botid before comparing
-                mBoard[columnId - 1][rowId - 1] == mBoard[columnId - 2][rowId - 2] &&   //check for continuous diagonal down pattern
-                mBoard[columnId - 2][rowId - 2] == mBoard[columnId - 3][rowId - 3]) {
-            return new SearchResult(mBoard[columnId - 1][rowId - 1], columnId);
-        }
-
-        if (columnId - 2 >= 0 && columnId + 1 < mCols &&
-                rowId - 2 >= 0 && rowId + 1 < mRows &&
-                mBoard[columnId + 1][rowId + 1] != UNUSED_SLOT &&
-                mBoard[columnId + 1][rowId + 1] == mBoard[columnId - 1][rowId - 1] &&
-                mBoard[columnId - 1][rowId - 1] == mBoard[columnId - 2 ][rowId - 2]) {
-            return new SearchResult(mBoard[columnId + 1][rowId + 1], columnId);
-        }
-
-        if (columnId - 1 >= 0 && columnId + 2 < mCols &&
-                rowId - 1 >= 0 && rowId + 2 < mRows &&
-                mBoard[columnId + 2][rowId + 2] != UNUSED_SLOT &&
-                mBoard[columnId + 2][rowId + 2] == mBoard[columnId + 1][rowId + 1] &&
-                mBoard[columnId + 1][rowId + 1] == mBoard[columnId - 1][rowId - 1]) {
-            return new SearchResult(mBoard[columnId + 2][rowId + 2], columnId);
-        }
-
-        if (columnId + 3 < mCols &&
-                rowId + 3 < mRows &&
-                mBoard[columnId + 3][rowId + 3] != UNUSED_SLOT &&
-                mBoard[columnId + 3][rowId + 3] == mBoard[columnId + 2][rowId + 2] &&
-                mBoard[columnId + 2][rowId + 2] == mBoard[columnId + 1][rowId + 1]) {
-            return new SearchResult(mBoard[columnId + 3][rowId + 3], columnId);
-        }
-
-        return null;
-    }
-
-    private int searchRowPosition(int columnId) {
-        for (int y = mRows - 1; y >= 0; y--) {
-            if(mBoard[columnId][y] == UNUSED_SLOT) {
-                return y;
+    public int getWinner() {
+        /* Check for horizontal wins */
+        for (int x = 0; x < mCols; x++) {
+            for (int y = 0; y < mRows; y++) {
+                int n = mBoard[x][y];
+                Boolean win = true;
+                if (n != 0) {
+                    for (int i = 0; i < INAROW; i++) {
+                        if (x + i < mCols) {
+                            if (n != (mBoard[x + i][y])) {
+                                win = false;
+                            }
+                        } else {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return n;
+                    }
+                }
             }
         }
 
-        return ROW_NOT_FOUND;
+        /* Check for vertical wins */
+        for (int x = 0; x < mCols; x++) {
+            for (int y = 0; y < mRows; y++) {
+                int n = mBoard[x][y];
+                Boolean win = true;
+                if (n != 0) {
+                    for (int i = 0; i < INAROW; i++) {
+                        if (y + i < mRows) {
+                            if (n != mBoard[x][y + i]) {
+                                win = false;
+                            }
+                        } else {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return n;
+                    }
+                }
+            }
+        }
+
+        /* Check for diagonal wins */
+        for (int x = 0; x < mCols; x++) {
+            for (int y = 0; y < mRows; y++) {
+                int n = mBoard[x][y];
+                Boolean win = true;
+                if (n != 0) {
+                    for (int i = 0; i < INAROW; i++) {
+                        if (x - i >= 0 && y + i < mRows) {
+                            if (n !=mBoard[x - i][y + i]) {
+                                win = false;
+                            }
+                        } else {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return n;
+                    }
+                }
+            }
+        }
+        /* Check for anti diagonal wins */
+        for (int x = 0; x < mCols; x++) {
+            for (int y = 0; y < mRows; y++) {
+                int n = mBoard[x][y];
+                Boolean win = true;
+                if (n != 0) {
+                    for (int i = 0; i < INAROW; i++) {
+                        if (x + i < mCols && y + i < mRows) {
+                            if (n != mBoard[x + i][y + i]) {
+                                win = false;
+                            }
+                        } else {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return n;
+                    }
+                }
+            }
+        }
+        return 0;
     }
 }
