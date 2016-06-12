@@ -2,6 +2,7 @@ package amang.BotLogic;
 
 import amang.Playboard.Playboard;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MinMaxStrategy implements IBotStrategy {
     private int mBotId;
@@ -12,7 +13,7 @@ public class MinMaxStrategy implements IBotStrategy {
 
     private Playboard mPlayboard;
     
-    public static final int TURN_SCORE = 10;
+    public static final int WIN_SCORE = 43;
     public static final int MAX_SEARCH_DEPTH = 3;
     public static final int FIRST_BOT_ID = 1;
     public static final int SECOND_BOT_ID = 2;
@@ -49,7 +50,6 @@ public class MinMaxStrategy implements IBotStrategy {
         ArrayList<Integer> moves = new ArrayList<>();
 
         mCurrentSearchDepth++;
-        System.err.println("Analyse depth " + mCurrentSearchDepth + "...");
 
         for(int currentColumnId = 0; currentColumnId < maxColumns; currentColumnId++) {
             Playboard movePlayboard = new Playboard(playboard);
@@ -57,7 +57,10 @@ public class MinMaxStrategy implements IBotStrategy {
                 continue;
             }
 
-            gameScores.add(minMax(movePlayboard, maxColumns));
+            int currentGameScore = minMax(movePlayboard, maxColumns);
+            System.err.println(new Date().getTime() + " Analyse depth " + mCurrentSearchDepth + " Add Column Id " + currentColumnId + " Update Playboard " + movePlayboard + " Game Score " + currentGameScore);
+
+            gameScores.add(currentGameScore);
             moves.add(currentColumnId);
         }
         mCurrentSearchDepth--;
@@ -78,9 +81,9 @@ public class MinMaxStrategy implements IBotStrategy {
     private int calculateGameScore(Playboard playboard) {
         int winnerId = playboard.getPlayboardPatternSearch().getWinner();
         if(winnerId == mBotId) {
-            return TURN_SCORE;
+            return WIN_SCORE - mCurrentSearchDepth;
         } else if(winnerId == mOpponentBotId) {
-            return TURN_SCORE * -1;
+            return mCurrentSearchDepth - WIN_SCORE;
         } else if(playboard.isFull() || mCurrentSearchDepth > MAX_SEARCH_DEPTH) {
             return 0;
         } else {
