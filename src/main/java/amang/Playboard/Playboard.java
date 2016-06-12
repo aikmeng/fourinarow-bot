@@ -121,6 +121,8 @@ public class Playboard {
         return (mBoard[column][0] == 0);
     }
 
+    public static String newline = System.getProperty("line.separator");
+
     @Override
     /**
      * Creates comma separated String with every cell.
@@ -128,7 +130,7 @@ public class Playboard {
      * @return : String
      */
     public String toString() {
-        String r = "";
+        String r = " ";
         int counter = 0;
         for (int y = 0; y < mRows; y++) {
             for (int x = 0; x < mCols; x++) {
@@ -138,6 +140,7 @@ public class Playboard {
                 r += mBoard[x][y];
                 counter++;
             }
+            r += newline;
         }
         return r;
     }

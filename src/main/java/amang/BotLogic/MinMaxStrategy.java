@@ -58,7 +58,8 @@ public class MinMaxStrategy implements IBotStrategy {
             }
 
             int currentGameScore = minMax(movePlayboard, maxColumns);
-            System.err.println(new Date().getTime() + " Analyse depth " + mCurrentSearchDepth + " Add Column Id " + currentColumnId + " Update Playboard " + movePlayboard + " Game Score " + currentGameScore);
+            System.err.println(new Date().getTime() + " Analyse depth " + mCurrentSearchDepth + " Add Column Id " + currentColumnId + " Game Score " + currentGameScore);
+            System.err.println(movePlayboard);
 
             gameScores.add(currentGameScore);
             moves.add(currentColumnId);
