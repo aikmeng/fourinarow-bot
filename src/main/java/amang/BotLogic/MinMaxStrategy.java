@@ -7,14 +7,13 @@ import java.util.Date;
 public class MinMaxStrategy implements IBotStrategy {
     private int mBotId;
     private int mOpponentBotId;
-    private int mCurrentBotId;
     private int mChoiceColumnId;
     private int mCurrentSearchDepth;
 
     private Playboard mPlayboard;
     
     public static final int WIN_SCORE = 43;
-    public static final int MAX_SEARCH_DEPTH = 3;
+    public static final int MAX_SEARCH_DEPTH = 5;
     public static final int FIRST_BOT_ID = 1;
     public static final int SECOND_BOT_ID = 2;
 
@@ -34,13 +33,12 @@ public class MinMaxStrategy implements IBotStrategy {
     public int makeTurn() {
         int maxColumns = mPlayboard.getNrColumns();
 
-        mCurrentBotId = mBotId;
-        minMax(mPlayboard, maxColumns);
+        minMax(mPlayboard, maxColumns, mBotId);
 
         return mChoiceColumnId;
     }
 
-    public int minMax(Playboard playboard, int maxColumns) {
+    public int minMax(Playboard playboard, int maxColumns, int currentBotId) {
         int gameScore = calculateGameScore(playboard);
         if(gameScore != -1) {
             return gameScore;
@@ -53,30 +51,39 @@ public class MinMaxStrategy implements IBotStrategy {
 
         for(int currentColumnId = 0; currentColumnId < maxColumns; currentColumnId++) {
             Playboard movePlayboard = new Playboard(playboard);
-            if (!movePlayboard.addDisc(currentColumnId, mCurrentBotId)) {
+            if (!movePlayboard.addDisc(currentColumnId, currentBotId)) {
                 continue;
             }
 
-            int currentGameScore = minMax(movePlayboard, maxColumns);
-            System.err.println(new Date().getTime() + " Analyse depth " + mCurrentSearchDepth + " Add Column Id " + currentColumnId + " CurrentBotId " + mCurrentBotId + " Game Score " + currentGameScore);
-            System.err.println(movePlayboard);
+            //System.err.println(new Date().getTime() + " Analyse depth " + mCurrentSearchDepth + " Add Column Id " + currentColumnId + " CurrentBotId " + currentBotId);
+            int currentGameScore = minMax(movePlayboard, maxColumns, toggleBotId(currentBotId));
+            //System.err.println(new Date().getTime() + " Analyse depth " + mCurrentSearchDepth + " Add Column Id " + currentColumnId + " CurrentBotId " + currentBotId + " Game Score " + currentGameScore);
+            //System.err.println(movePlayboard);
 
             gameScores.add(currentGameScore);
             moves.add(currentColumnId);
         }
+
         mCurrentSearchDepth--;
 
-        if(mCurrentBotId == mBotId) {
+
+        if(currentBotId == mBotId) {
             int highestScoreIndex = FindMaxValueIndex(gameScores);
             mChoiceColumnId = moves.get(highestScoreIndex);
-            mCurrentBotId = mOpponentBotId;
             return gameScores.get(highestScoreIndex);
         } else {
             int lowestScoreIndex = FindMinValueIndex(gameScores);
             mChoiceColumnId = moves.get(lowestScoreIndex);
-            mCurrentBotId = mBotId;
             return gameScores.get(lowestScoreIndex);
         }
+    }
+
+    private int toggleBotId(int currentBotId) {
+        if(currentBotId == mBotId) {
+            return mOpponentBotId;
+        }
+
+        return mBotId;
     }
 
     private int calculateGameScore(Playboard playboard) {
