@@ -18,10 +18,11 @@
 package amang.Playboard;
 
 public class Playboard {
+    private final int INAROW = 4; /* Number of cells in a row needed for a win */
+    private static String newline = System.getProperty("line.separator");
+
     private int[][] mBoard;
     private int mCols = 0, mRows = 0;
-
-    private PlayboardPatternSearch mPlayboardPatternSearch;
 
     public Playboard(int columns, int rows) {
         mCols = columns;
@@ -46,7 +47,6 @@ public class Playboard {
     private void Initialize() {
         mBoard = new int[mCols][mRows];
         clearBoard();
-        mPlayboardPatternSearch = new PlayboardPatternSearch(mCols, mRows, mBoard);
     }
 
     /**
@@ -57,8 +57,6 @@ public class Playboard {
     public void setColumns(int cols) {
         mCols = cols;
         mBoard = new int[mCols][mRows];
-
-        mPlayboardPatternSearch = new PlayboardPatternSearch(mCols, mRows, mBoard);
     }
 
     /**
@@ -69,8 +67,6 @@ public class Playboard {
     public void setRows(int rows) {
         mRows = rows;
         mBoard = new int[mCols][mRows];
-
-        mPlayboardPatternSearch = new PlayboardPatternSearch(mCols, mRows, mBoard);
     }
 
     /**
@@ -120,8 +116,6 @@ public class Playboard {
     public Boolean isValidMove(int column) {
         return (mBoard[column][0] == 0);
     }
-
-    public static String newline = System.getProperty("line.separator");
 
     @Override
     /**
@@ -182,10 +176,6 @@ public class Playboard {
         return mRows;
     }
 
-    public int getMiddleColumn() {
-        return mCols / 2;
-    }
-
     public Boolean addDisc(int column, int disc) {
         if (column < mCols) {
             for (int y = mRows - 1; y >= 0; y--) { // From bottom column up
@@ -198,8 +188,93 @@ public class Playboard {
         return false;
     }
 
+    public int getWinner() {
+        /* Check for horizontal wins */
+        for (int x = 0; x < mCols; x++) {
+            for (int y = 0; y < mRows; y++) {
+                int n = mBoard[x][y];
+                Boolean win = true;
+                if (n != 0) {
+                    for (int i = 0; i < INAROW; i++) {
+                        if (x + i < mCols) {
+                            if (n != (mBoard[x + i][y])) {
+                                win = false;
+                            }
+                        } else {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return n;
+                    }
+                }
+            }
+        }
 
-    public PlayboardPatternSearch getPlayboardPatternSearch() {
-        return mPlayboardPatternSearch;
+        /* Check for vertical wins */
+        for (int x = 0; x < mCols; x++) {
+            for (int y = 0; y < mRows; y++) {
+                int n = mBoard[x][y];
+                Boolean win = true;
+                if (n != 0) {
+                    for (int i = 0; i < INAROW; i++) {
+                        if (y + i < mRows) {
+                            if (n != mBoard[x][y + i]) {
+                                win = false;
+                            }
+                        } else {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return n;
+                    }
+                }
+            }
+        }
+
+        /* Check for diagonal wins */
+        for (int x = 0; x < mCols; x++) {
+            for (int y = 0; y < mRows; y++) {
+                int n = mBoard[x][y];
+                Boolean win = true;
+                if (n != 0) {
+                    for (int i = 0; i < INAROW; i++) {
+                        if (x - i >= 0 && y + i < mRows) {
+                            if (n !=mBoard[x - i][y + i]) {
+                                win = false;
+                            }
+                        } else {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return n;
+                    }
+                }
+            }
+        }
+        /* Check for anti diagonal wins */
+        for (int x = 0; x < mCols; x++) {
+            for (int y = 0; y < mRows; y++) {
+                int n = mBoard[x][y];
+                Boolean win = true;
+                if (n != 0) {
+                    for (int i = 0; i < INAROW; i++) {
+                        if (x + i < mCols && y + i < mRows) {
+                            if (n != mBoard[x + i][y + i]) {
+                                win = false;
+                            }
+                        } else {
+                            win = false;
+                        }
+                    }
+                    if (win) {
+                        return n;
+                    }
+                }
+            }
+        }
+        return 0;
     }
 }

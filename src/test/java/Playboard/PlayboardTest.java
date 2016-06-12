@@ -91,10 +91,4 @@ public class PlayboardTest {
         classUnderTest.parseFromString(fieldString);
         assertTrue(classUnderTest.isFull());
     }
-
-    @Test
-    public void testGetMiddleColumn() {
-        Playboard classUnderTest = new Playboard(MAX_COLUMN, MAX_ROW);
-        assertEquals(3, classUnderTest.getMiddleColumn());
-    }
 }

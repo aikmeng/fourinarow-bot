@@ -87,7 +87,7 @@ public class MinMaxStrategy implements IBotStrategy {
     }
 
     private int calculateGameScore(Playboard playboard) {
-        int winnerId = playboard.getPlayboardPatternSearch().getWinner();
+        int winnerId = playboard.getWinner();
         if(winnerId == mBotId) {
             return WIN_SCORE - mCurrentSearchDepth;
         } else if(winnerId == mOpponentBotId) {
